@@ -118,5 +118,27 @@
                 return View(await _cosmosDbService.GetItemAsync(id));
             
         }
+
+        [HttpGet("~/healthcheck")]
+        public async Task<ActionResult> HealthCheckAsync()
+        {
+            try
+            {
+                bool isHealthy = await _cosmosDbService.HealthCheckAsync();
+                
+                if (isHealthy)
+                {
+                    return Ok(new { status = "healthy", timestamp = DateTime.UtcNow });
+                }
+                else
+                {
+                    return StatusCode(500, new { status = "unhealthy", timestamp = DateTime.UtcNow });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = "unhealthy", error = ex.Message, timestamp = DateTime.UtcNow });
+            }
+        }
     }
 }

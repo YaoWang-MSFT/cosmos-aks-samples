@@ -18,8 +18,11 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2024-02-01' = {
     type: 'UserAssigned'
     userAssignedIdentities: identity   
   }
+  tags: {
+    'BypassIaaSExpIPServiceTag': 'true'
+  }
   properties: {
-    kubernetesVersion: '1.29'
+    kubernetesVersion: '1.32.7'
     nodeResourceGroup: '${basename}-aksInfraRG'
     dnsPrefix: '${basename}aks'
     agentPoolProfiles: [

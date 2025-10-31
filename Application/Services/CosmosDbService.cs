@@ -62,5 +62,30 @@
         {
             await this._container.UpsertItemAsync<Item>(item, new PartitionKey(id));
         }
+
+        public async Task<bool> HealthCheckAsync()
+        {
+            try
+            {
+                // Perform a simple read operation to check database connectivity
+                var query = "SELECT TOP 1 * FROM c";
+                var iterator = this._container.GetItemQueryIterator<Item>(new QueryDefinition(query));
+                
+                if (iterator.HasMoreResults)
+                {
+                    await iterator.ReadNextAsync();
+                }
+                
+                return true;
+            }
+            catch (CosmosException)
+            {
+                return false;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -4,6 +4,9 @@ param location string = resourceGroup().location
 resource vnet 'Microsoft.Network/virtualNetworks@2022-01-01' = {
   name: '${vnetNamePrefix}-VNet'
   location: location
+  tags: {
+    'skip-Subnet-Outbound': 'true'
+  }
   properties: {
       addressSpace: {
       addressPrefixes: [

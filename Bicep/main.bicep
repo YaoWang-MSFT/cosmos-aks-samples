@@ -6,7 +6,7 @@ param acrName string
 param cosmosName string
 param location string =deployment().location
 
-var baseName = rgName
+var baseName = 'prodwus01'
 
 module rg 'modules/resource-group/rg.bicep' = {
   name: rgName
